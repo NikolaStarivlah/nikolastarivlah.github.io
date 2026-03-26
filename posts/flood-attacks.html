@@ -12,16 +12,18 @@ body {
     margin: 0;
 }
 
+/* Main container to align header and content */
 .container {
     max-width: 800px;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
+/* Header with title and links */
 .header {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 15px; /* space between name and links */
     padding: 20px 0;
 }
 
@@ -41,12 +43,21 @@ body {
     text-decoration: none;
 }
 
+/* Sidebar styling */
 .sidebar {
-    width: 220px;
+    width: 200px;
     padding: 20px;
     border-right: 1px solid #30363d;
     position: fixed;
+    top: 0;
+    left: 0;
     height: 100%;
+    background: #0d1117;
+}
+
+.sidebar h3 {
+    color: white;
+    margin-top: 0;
 }
 
 .sidebar a {
@@ -56,25 +67,47 @@ body {
     text-decoration: none;
 }
 
+/* Content area */
 .content {
-    margin-left: 240px;
-    padding: 20px;
+    margin-left: 240px; /* leaves room for sidebar */
+    padding: 20px 0;
 }
 
-h1, h2 {
+.content h2 {
     color: white;
+    margin-top: 40px;
 }
 
+.content p, .content ul {
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* Tags for styling */
 .tag {
     color: #8b949e;
     margin-right: 8px;
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- Sidebar -->
+<div class="sidebar">
+    <h3>Contents</h3>
+    <a href="#overview">Overview</a>
+    <a href="#icmp">ICMP Flood</a>
+    <a href="#udp">UDP Flood</a>
+    <a href="#syn">SYN Flood</a>
+    <a href="#analysis">Analysis Process</a>
+    <a href="#takeaways">Takeaways</a>
+</div>
+
+<!-- Main container -->
 <div class="container">
+    <!-- Header -->
     <div class="header">
         <h1>Flood Attacks Analysis</h1>
         <div class="nav">
@@ -85,16 +118,7 @@ h1, h2 {
         </div>
     </div>
 
-    <div class="sidebar">
-        <h3>Contents</h3>
-        <a href="#overview">Overview</a>
-        <a href="#icmp">ICMP Flood</a>
-        <a href="#udp">UDP Flood</a>
-        <a href="#syn">SYN Flood</a>
-        <a href="#analysis">Analysis Process</a>
-        <a href="#takeaways">Takeaways</a>
-    </div>
-
+    <!-- Content -->
     <div class="content">
         <h2 id="overview">Overview</h2>
         <p>
