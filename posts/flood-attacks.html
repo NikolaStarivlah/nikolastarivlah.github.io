@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flood Attacks Analysis</title>
+
+<style>
+body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: monospace;
+    display: flex;
+    margin: 0;
+}
+
+.sidebar {
+    width: 220px;
+    padding: 20px;
+    border-right: 1px solid #30363d;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 20px;
+    max-width: 800px;
+}
+
+h1, h2 {
+    color: white;
+}
+
+.tag {
+    color: #8b949e;
+    margin-right: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h3>Contents</h3>
+    <a href="#overview">Overview</a>
+    <a href="#icmp">ICMP Flood</a>
+    <a href="#udp">UDP Flood</a>
+    <a href="#syn">SYN Flood</a>
+    <a href="#analysis">Analysis Process</a>
+    <a href="#takeaways">Takeaways</a>
+</div>
+
+<div class="content">
+
+<h1>Flood Attacks Analysis</h1>
+
+<p>
+<span class="tag">dos</span>
+<span class="tag">icmp</span>
+<span class="tag">udp</span>
+<span class="tag">tcp</span>
+<span class="tag">wireshark</span>
+</p>
+
+<h2 id="overview">Overview</h2>
+<p>
+This post explores different types of flood attacks and how they appear from a defensive perspective. 
+Instead of focusing on exploitation, the goal is to understand how abnormal traffic patterns can be identified through analysis.
+</p>
+
+<h2 id="icmp">ICMP Flood</h2>
+<p>
+Placeholder: You will add Wireshark screenshots and observations here.
+Focus on packet rate, repetition, and lack of normal behavior.
+</p>
+
+<h2 id="udp">UDP Flood</h2>
+<p>
+Placeholder: Analyze high-volume UDP traffic and how services respond.
+Look for unusual port targeting and traffic spikes.
+</p>
+
+<h2 id="syn">SYN Flood</h2>
+<p>
+Placeholder: Focus on incomplete TCP handshakes and server response behavior.
+Highlight SYN vs ACK imbalance.
+</p>
+
+<h2 id="analysis">Analysis Process</h2>
+<p>
+The goal of this analysis is to identify patterns rather than individual packets. 
+By observing traffic behavior such as volume, frequency, and response patterns, it becomes easier to distinguish between normal and malicious activity.
+</p>
+
+<p>
+This approach can be applied in real-world environments where analysts must quickly determine whether unusual traffic is part of an attack or legitimate usage.
+</p>
+
+<h2 id="takeaways">Key Takeaways</h2>
+<ul>
+<li>Flood attacks are identifiable through traffic patterns</li>
+<li>Packet imbalance is a strong indicator of malicious activity</li>
+<li>Visualization tools like Wireshark help reveal hidden behaviors</li>
+</ul>
+
+</div>
+
+</body>
+</html>
