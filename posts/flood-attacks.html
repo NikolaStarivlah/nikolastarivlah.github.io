@@ -9,8 +9,32 @@ body {
     background: #0d1117;
     color: #c9d1d9;
     font-family: monospace;
-    display: flex;
     margin: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: center;   
+    align-items: center;       
+    gap: 40px;                 
+    padding: 20px;
+    border-bottom: 1px solid #30363d;
+}
+
+.header h1 {
+    margin: 0;
+    color: white;
+    font-size: 24px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px; /* horizontal spacing between links */
+}
+
+.nav a {
+    color: #58a6ff;
+    text-decoration: none;
 }
 
 .sidebar {
@@ -42,11 +66,20 @@ h1, h2 {
     color: #8b949e;
     margin-right: 8px;
 }
-
 </style>
 </head>
 
 <body>
+
+<div class="header">
+    <h1>Flood Attacks Analysis</h1>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+        <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+    </div>
+</div>
 
 <div class="sidebar">
     <h3>Contents</h3>
@@ -59,16 +92,6 @@ h1, h2 {
 </div>
 
 <div class="content">
-
-<h1>Flood Attacks Analysis</h1>
-
-<p>
-<span class="tag">dos</span>
-<span class="tag">icmp</span>
-<span class="tag">udp</span>
-<span class="tag">tcp</span>
-<span class="tag">wireshark</span>
-</p>
 
 <h2 id="overview">Overview</h2>
 <p>
@@ -98,10 +121,6 @@ Highlight SYN vs ACK imbalance.
 <p>
 The goal of this analysis is to identify patterns rather than individual packets. 
 By observing traffic behavior such as volume, frequency, and response patterns, it becomes easier to distinguish between normal and malicious activity.
-</p>
-
-<p>
-This approach can be applied in real-world environments where analysts must quickly determine whether unusual traffic is part of an attack or legitimate usage.
 </p>
 
 <h2 id="takeaways">Key Takeaways</h2>
