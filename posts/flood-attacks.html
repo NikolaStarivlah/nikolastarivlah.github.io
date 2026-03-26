@@ -12,13 +12,17 @@ body {
     margin: 0;
 }
 
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
 .header {
     display: flex;
-    justify-content: center;   
-    align-items: center;       
-    gap: 40px;                 
-    padding: 20px;
-    border-bottom: 1px solid #30363d;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
 }
 
 .header h1 {
@@ -29,7 +33,7 @@ body {
 
 .nav {
     display: flex;
-    gap: 15px; /* horizontal spacing between links */
+    gap: 15px;
 }
 
 .nav a {
@@ -55,7 +59,6 @@ body {
 .content {
     margin-left: 240px;
     padding: 20px;
-    max-width: 800px;
 }
 
 h1, h2 {
@@ -71,65 +74,62 @@ h1, h2 {
 
 <body>
 
-<div class="header">
-    <h1>Flood Attacks Analysis</h1>
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
-        <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+<div class="container">
+    <div class="header">
+        <h1>Flood Attacks Analysis</h1>
+        <div class="nav">
+            <a href="../index.html">Home</a>
+            <a href="../about.html">About Me</a>
+            <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+            <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+        </div>
     </div>
-</div>
 
-<div class="sidebar">
-    <h3>Contents</h3>
-    <a href="#overview">Overview</a>
-    <a href="#icmp">ICMP Flood</a>
-    <a href="#udp">UDP Flood</a>
-    <a href="#syn">SYN Flood</a>
-    <a href="#analysis">Analysis Process</a>
-    <a href="#takeaways">Takeaways</a>
-</div>
+    <div class="sidebar">
+        <h3>Contents</h3>
+        <a href="#overview">Overview</a>
+        <a href="#icmp">ICMP Flood</a>
+        <a href="#udp">UDP Flood</a>
+        <a href="#syn">SYN Flood</a>
+        <a href="#analysis">Analysis Process</a>
+        <a href="#takeaways">Takeaways</a>
+    </div>
 
-<div class="content">
+    <div class="content">
+        <h2 id="overview">Overview</h2>
+        <p>
+            This post explores different types of flood attacks and how they appear from a defensive perspective. 
+            Instead of focusing on exploitation, the goal is to understand how abnormal traffic patterns can be identified through analysis.
+        </p>
 
-<h2 id="overview">Overview</h2>
-<p>
-This post explores different types of flood attacks and how they appear from a defensive perspective. 
-Instead of focusing on exploitation, the goal is to understand how abnormal traffic patterns can be identified through analysis.
-</p>
+        <h2 id="icmp">ICMP Flood</h2>
+        <p>
+            Placeholder: You will add Wireshark screenshots and observations here. Focus on packet rate, repetition, and lack of normal behavior.
+        </p>
 
-<h2 id="icmp">ICMP Flood</h2>
-<p>
-Placeholder: You will add Wireshark screenshots and observations here.
-Focus on packet rate, repetition, and lack of normal behavior.
-</p>
+        <h2 id="udp">UDP Flood</h2>
+        <p>
+            Placeholder: Analyze high-volume UDP traffic and how services respond. Look for unusual port targeting and traffic spikes.
+        </p>
 
-<h2 id="udp">UDP Flood</h2>
-<p>
-Placeholder: Analyze high-volume UDP traffic and how services respond.
-Look for unusual port targeting and traffic spikes.
-</p>
+        <h2 id="syn">SYN Flood</h2>
+        <p>
+            Placeholder: Focus on incomplete TCP handshakes and server response behavior. Highlight SYN vs ACK imbalance.
+        </p>
 
-<h2 id="syn">SYN Flood</h2>
-<p>
-Placeholder: Focus on incomplete TCP handshakes and server response behavior.
-Highlight SYN vs ACK imbalance.
-</p>
+        <h2 id="analysis">Analysis Process</h2>
+        <p>
+            The goal of this analysis is to identify patterns rather than individual packets. 
+            By observing traffic behavior such as volume, frequency, and response patterns, it becomes easier to distinguish between normal and malicious activity.
+        </p>
 
-<h2 id="analysis">Analysis Process</h2>
-<p>
-The goal of this analysis is to identify patterns rather than individual packets. 
-By observing traffic behavior such as volume, frequency, and response patterns, it becomes easier to distinguish between normal and malicious activity.
-</p>
-
-<h2 id="takeaways">Key Takeaways</h2>
-<ul>
-<li>Flood attacks are identifiable through traffic patterns</li>
-<li>Packet imbalance is a strong indicator of malicious activity</li>
-<li>Visualization tools like Wireshark help reveal hidden behaviors</li>
-</ul>
-
+        <h2 id="takeaways">Key Takeaways</h2>
+        <ul>
+            <li>Flood attacks are identifiable through traffic patterns</li>
+            <li>Packet imbalance is a strong indicator of malicious activity</li>
+            <li>Visualization tools like Wireshark help reveal hidden behaviors</li>
+        </ul>
+    </div>
 </div>
 
 </body>
