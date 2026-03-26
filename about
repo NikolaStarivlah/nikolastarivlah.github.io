@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>About Me</title>
+
+<style>
+body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: monospace;
+    margin: 0;
+}
+
+.header {
+    padding: 20px;
+    border-bottom: 1px solid #30363d;
+}
+
+.header h1 {
+    margin: 0;
+    color: white;
+}
+
+.nav a {
+    margin-right: 15px;
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>About Me</h1>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+    </div>
+</div>
+
+<div class="container">
+
+<p>
+My interest for Cyber Security makes me happy to do what I do and allows me to continue to grow, become better, and help others break into the field.
+</p>
+
+<p>
+Throughout the years, I have focused on working my way around operating systems by utilizing their strengths and exploiting weaknesses. By doing this I would find and troubleshoot anything that did not work as expected because I personally needed these things for one reason or another.
+</p>
+
+<p>
+As of now I'm currently working on transitioning my skills into penetration testing and threat/vulnerability analysis by testing in a simulated environment. I'm also interested in AI.
+</p>
+
+<p>
+During my spare time I'm usually testing out different tools and techniques or checking out other peoples projects, documentation, and tutorials online. I especially enjoyed and still reference TryHackMe and HackTheBox.
+</p>
+
+</div>
+
+</body>
+</html>
