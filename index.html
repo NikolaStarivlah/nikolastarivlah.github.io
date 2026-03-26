@@ -2,102 +2,77 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nikola | Detection-Focused Security</title>
+<title>Nikola | Blue Team Notes</title>
+
 <style>
-    body {
-        background-color: #0d1117;
-        color: #c9d1d9;
-        font-family: monospace;
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-    }
+body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: monospace;
+    margin: 0;
+}
 
-    a {
-        color: #58a6ff;
-        text-decoration: none;
-    }
+.header {
+    padding: 20px;
+    border-bottom: 1px solid #30363d;
+}
 
-    h1, h2 {
-        color: #ffffff;
-    }
+.header h1 {
+    margin: 0;
+    color: white;
+}
 
-    .tag {
-        color: #8b949e;
-        margin-right: 8px;
-        font-size: 0.9em;
-    }
+.nav a {
+    margin-right: 15px;
+    color: #58a6ff;
+    text-decoration: none;
+}
 
-    .post {
-        margin-bottom: 40px;
-    }
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
 
-    .date {
-        color: #6e7681;
-        font-size: 0.9em;
-    }
+.post {
+    margin-bottom: 30px;
+}
 
-    .summary {
-        margin-top: 10px;
-        line-height: 1.5;
-    }
+.post h2 {
+    margin-bottom: 5px;
+}
 
-    .header {
-        margin-bottom: 40px;
-    }
+.post a {
+    color: #58a6ff;
+    text-decoration: none;
+}
 
-    .nav {
-        margin-bottom: 20px;
-    }
+.tags {
+    color: #8b949e;
+    font-size: 14px;
+}
 
-    .nav a {
-        margin-right: 15px;
-    }
 </style>
 </head>
 
 <body>
 
 <div class="header">
-    <h1>Nikola | Detection-Focused Security</h1>
-    <p>I break down real-world attacks and explain how they appear in logs, traffic, and systems.</p>
+    <h1>Nikola Blue Team</h1>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+    </div>
 </div>
 
-<div class="nav">
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Tags</a>
-    <a href="#">Writeups</a>
-</div>
-
-<h2>Posts</h2>
+<div class="container">
 
 <div class="post">
-    <div class="date">Mar 2026</div>
-    <h3><a href="#">Detecting SYN Floods Through Packet Analysis</a></h3>
-    <div>
-        <span class="tag">tcp</span>
-        <span class="tag">syn-flood</span>
-        <span class="tag">wireshark</span>
-        <span class="tag">pcap</span>
-    </div>
-    <div class="summary">
-        Analysis of incomplete TCP handshakes and how SYN flood attacks appear in packet captures. Includes detection logic and traffic patterns.
-    </div>
+    <h2><a href="posts/flood-attacks.html">Flood Attacks Analysis</a></h2>
+    <p>Breaking down ICMP, UDP, and SYN flood attacks through packet analysis and detection patterns, focusing on how abnormal traffic behavior reveals denial-of-service activity.</p>
+    <div class="tags">dos • tcp • udp • icmp • wireshark • analysis</div>
 </div>
 
-<div class="post">
-    <div class="date">Mar 2026</div>
-    <h3><a href="#">Identifying Suspicious HTTP Traffic Patterns</a></h3>
-    <div>
-        <span class="tag">http</span>
-        <span class="tag">l7</span>
-        <span class="tag">logs</span>
-        <span class="tag">detection</span>
-    </div>
-    <div class="summary">
-        Breakdown of abnormal HTTP requests, user-agent anomalies, and repeated POST behavior commonly seen in web-based attacks.
-    </div>
 </div>
 
 </body>
