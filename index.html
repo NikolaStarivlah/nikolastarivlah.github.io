@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nikola | Writeups </title>
+<title>Nikola | Writeups</title>
 
 <style>
 body {
@@ -13,6 +13,9 @@ body {
 }
 
 .header {
+    display: flex;
+    align-items: center;            /* vertical centering */
+    justify-content: space-between; /* name left, nav right */
     padding: 20px;
     border-bottom: 1px solid #30363d;
 }
@@ -20,10 +23,11 @@ body {
 .header h1 {
     margin: 0;
     color: white;
+    font-size: 24px;
 }
 
 .nav a {
-    margin-right: 15px;
+    margin-left: 15px;  /* horizontal spacing */
     color: #58a6ff;
     text-decoration: none;
 }
@@ -51,37 +55,38 @@ body {
     color: #8b949e;
     font-size: 14px;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="header">
-    <h1>Nikola Blue Team</h1>
-
+    <h1>Nikola's Writeups</h1>
     <div class="nav">
         <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
         <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
-        <a href="https://app.hackthebox.com/profile/mantymanty12" target="_blank">HackTheBox</a>
-    </div>
+        <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>    </div>
 </div>
+
 <div class="container">
 
-<div class="post">
-    <h2>
-        <a href="posts/flood-attacks.html">Flood Attacks Analysis</a>
-    </h2>
+    <div class="post">
+        <h2>
+            <a href="posts/flood-attacks.html">Flood Attacks Analysis</a>
+        </h2>
 
-    <p>
-        Breaking down ICMP, UDP, and SYN flood attacks through packet analysis and detection patterns, focusing on how abnormal traffic behavior reveals denial-of-service activity.
-    </p>
+        <p>
+            Breaking down ICMP, UDP, and SYN flood attacks through packet analysis and detection patterns, focusing on how abnormal traffic behavior reveals denial-of-service activity.
+        </p>
 
-    <div class="tags">dos • tcp • udp • icmp • wireshark • analysis</div>
-</div>
+        <div class="tags">dos • tcp • udp • icmp • wireshark • analysis</div>
+    </div>
 
+    <!-- You can add more posts here -->
+    
 </div>
 
 </body>
+</html>
 </html>
