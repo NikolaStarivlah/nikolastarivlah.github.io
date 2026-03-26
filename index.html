@@ -1,38 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Nikola Starivlah | Cybersecurity</title>
-  <style>
+<meta charset="UTF-8">
+<title>Nikola | Detection-Focused Security</title>
+<style>
     body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: Arial;
-      text-align: center;
-      padding: 50px;
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: monospace;
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
     }
+
     a {
-      color: #58a6ff;
-      display: block;
-      margin: 10px;
-      text-decoration: none;
+        color: #58a6ff;
+        text-decoration: none;
     }
-  </style>
+
+    h1, h2 {
+        color: #ffffff;
+    }
+
+    .tag {
+        color: #8b949e;
+        margin-right: 8px;
+        font-size: 0.9em;
+    }
+
+    .post {
+        margin-bottom: 40px;
+    }
+
+    .date {
+        color: #6e7681;
+        font-size: 0.9em;
+    }
+
+    .summary {
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    .header {
+        margin-bottom: 40px;
+    }
+
+    .nav {
+        margin-bottom: 20px;
+    }
+
+    .nav a {
+        margin-right: 15px;
+    }
+</style>
 </head>
+
 <body>
 
-  <h1>Nikola Starivlah</h1>
-  <h3>Cybersecurity | SOC Analyst | Threat Detection</h3>
+<div class="header">
+    <h1>Nikola | Detection-Focused Security</h1>
+    <p>I break down real-world attacks and explain how they appear in logs, traffic, and systems.</p>
+</div>
 
-  <p>
-    Focused on network attacks, detection, and real-world security analysis.
-  </p>
+<div class="nav">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Tags</a>
+    <a href="#">Writeups</a>
+</div>
 
-  <h2>Projects</h2>
+<h2>Posts</h2>
 
-  <a href="#">TCP Handshake Analysis</a>
-  <a href="#">SYN Flood Attack Breakdown</a>
-  <a href="#">HTTP Flood Analysis</a>
-  <a href="#">AI Spearphishing Tool</a>
+<div class="post">
+    <div class="date">Mar 2026</div>
+    <h3><a href="#">Detecting SYN Floods Through Packet Analysis</a></h3>
+    <div>
+        <span class="tag">tcp</span>
+        <span class="tag">syn-flood</span>
+        <span class="tag">wireshark</span>
+        <span class="tag">pcap</span>
+    </div>
+    <div class="summary">
+        Analysis of incomplete TCP handshakes and how SYN flood attacks appear in packet captures. Includes detection logic and traffic patterns.
+    </div>
+</div>
+
+<div class="post">
+    <div class="date">Mar 2026</div>
+    <h3><a href="#">Identifying Suspicious HTTP Traffic Patterns</a></h3>
+    <div>
+        <span class="tag">http</span>
+        <span class="tag">l7</span>
+        <span class="tag">logs</span>
+        <span class="tag">detection</span>
+    </div>
+    <div class="summary">
+        Breakdown of abnormal HTTP requests, user-agent anomalies, and repeated POST behavior commonly seen in web-based attacks.
+    </div>
+</div>
 
 </body>
 </html>
