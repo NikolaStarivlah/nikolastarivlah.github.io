@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flood Attacks Analysis</title>
 
 <style>
@@ -10,149 +11,347 @@ body {
     color: #c9d1d9;
     font-family: monospace;
     margin: 0;
+    line-height: 1.7;
 }
 
-/* Main container to align header and content */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+/* LEFT SIDEBAR */
+.sidebar {
+    width: 220px;
+    padding: 24px 20px;
+    border-right: 1px solid #30363d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: #0d1117;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
-/* Header with title and links */
+.sidebar h3 {
+    margin: 0 0 18px 0;
+    color: white;
+    font-size: 20px;
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 12px;
+    color: #58a6ff;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.sidebar a:hover {
+    color: #79c0ff;
+}
+
+/* MAIN AREA */
+.main {
+    margin-left: 220px;
+    min-height: 100vh;
+}
+
+/* HEADER */
 .header {
+    border-bottom: 1px solid #30363d;
+    padding: 24px 40px 20px 40px;
+}
+
+.header-inner {
     display: flex;
     align-items: center;
-    gap: 15px; /* space between name and links */
-    padding: 20px 0;
+    gap: 22px;
+    flex-wrap: wrap;
 }
 
 .header h1 {
     margin: 0;
     color: white;
-    font-size: 24px;
+    font-size: 32px;
+    line-height: 1.2;
 }
 
 .nav {
     display: flex;
-    gap: 15px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .nav a {
     color: #58a6ff;
     text-decoration: none;
+    font-size: 15px;
 }
 
-/* Sidebar styling */
-.sidebar {
-    width: 200px;
-    padding: 20px;
-    border-right: 1px solid #30363d;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: #0d1117;
+.nav a:hover {
+    color: #79c0ff;
 }
 
-.sidebar h3 {
-    color: white;
-    margin-top: 0;
-}
-
-.sidebar a {
-    display: block;
-    margin-bottom: 10px;
-    color: #58a6ff;
-    text-decoration: none;
-}
-
-/* Content area */
+/* ARTICLE CONTENT */
 .content {
-    margin-left: 240px; /* leaves room for sidebar */
-    padding: 20px 0;
+    max-width: 900px;
+    padding: 32px 40px 60px 40px;
+    box-sizing: border-box;
 }
 
-.content h2 {
-    color: white;
-    margin-top: 40px;
+/* MAIN RED TITLES */
+.section-title {
+    color: #ff4d4d;
+    font-size: 42px;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
 }
 
-.content p, .content ul {
-    margin-top: 10px;
-    line-height: 1.6;
+/* BLUE SUBSECTION TITLES */
+.subsection-title {
+    color: #58a6ff;
+    font-size: 22px;
+    margin: 30px 0 10px 0;
+    line-height: 1.3;
 }
 
-/* Tags for styling */
-.tag {
+/* NORMAL PARAGRAPH SPACING */
+.content p {
+    margin: 0 0 16px 0;
+    font-size: 17px;
+}
+
+/* TAGS */
+.tags {
     color: #8b949e;
-    margin-right: 8px;
+    margin-bottom: 28px;
+    font-size: 14px;
 }
 
+/* PANELS / BOXES */
+.panel {
+    background: #111827;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 18px 0 24px 0;
+}
+
+.panel strong {
+    color: white;
+}
+
+/* CODE / COMMAND BOX */
+pre {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    color: #c9d1d9;
+    margin: 16px 0 24px 0;
+    font-size: 14px;
+}
+
+code {
+    font-family: monospace;
+}
+
+/* SCREENSHOT / FIGURE PLACEHOLDER */
+.figure {
+    background: #111827;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 18px 0 28px 0;
+}
+
+.figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+}
+
+.figure-caption {
+    color: #8b949e;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* LISTS */
+.content ul {
+    margin: 0 0 20px 22px;
+}
+
+.content li {
+    margin-bottom: 8px;
+}
+
+/* INLINE LABEL STYLE */
+.label {
+    display: inline-block;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 2px 8px;
+    color: #c9d1d9;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .header,
+    .content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .section-title {
+        font-size: 34px;
+    }
+}
 </style>
 </head>
-
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <h3>Contents</h3>
     <a href="#overview">Overview</a>
     <a href="#icmp">ICMP Flood</a>
-    <a href="#udp">UDP Flood</a>
-    <a href="#syn">SYN Flood</a>
-    <a href="#analysis">Analysis Process</a>
-    <a href="#takeaways">Takeaways</a>
+    <a href="#lab-setup">Lab Setup</a>
+    <a href="#what-is-the-attack">What is the attack?</a>
+    <a href="#attacker">How is it used by an attacker?</a>
+    <a href="#defender">What would I see as a defender?</a>
+    <a href="#detection">How would I detect it?</a>
+    <a href="#impact">System Impact Observed</a>
+    <a href="#engineering">Detection Engineering</a>
+    <a href="#next-steps">Next Steps</a>
 </div>
 
-<!-- Main container -->
-<div class="container">
-    <!-- Header -->
+<div class="main">
     <div class="header">
-        <h1>Flood Attacks Analysis</h1>
-        <div class="nav">
-            <a href="../index.html">Home</a>
-            <a href="../about.html">About Me</a>
-            <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
-            <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+        <div class="header-inner">
+            <h1>Flood Attacks Analysis</h1>
+            <div class="nav">
+                <a href="../index.html">Home</a>
+                <a href="../about.html">About Me</a>
+                <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+                <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+            </div>
         </div>
     </div>
 
-    <!-- Content -->
     <div class="content">
-        <h2 id="overview">Overview</h2>
+        <h2 id="overview" class="section-title">Overview</h2>
+
+        <div class="tags">dos • icmp • udp • tcp • wireshark • snort • linux</div>
+
         <p>
-            This post explores different types of flood attacks and how they appear from a defensive perspective. 
-            Instead of focusing on exploitation, the goal is to understand how abnormal traffic patterns can be identified through analysis.
+            This writeup focuses on flood-based denial-of-service behavior from a defensive perspective.
+            Rather than focusing on exploitation, the goal is to understand what the traffic looks like,
+            how the target system behaves, and how a defender could detect abnormal packet patterns in a lab environment.
         </p>
 
-        <h2 id="icmp">ICMP Flood</h2>
+        <div class="panel">
+            <strong>Writeup style:</strong> red headings mark major sections, blue headings break the analysis into smaller steps,
+            and command/output blocks are used to document observations clearly.
+        </div>
+
+        <h2 id="icmp" class="section-title">ICMP Flood</h2>
+
+        <h3 id="lab-setup" class="subsection-title">Lab Setup</h3>
         <p>
-            Placeholder: You will add Wireshark screenshots and observations here. Focus on packet rate, repetition, and lack of normal behavior.
+            Two virtual machines were configured in an isolated host-only network.
+            Kali Linux acted as the attacker machine and Ubuntu Server acted as the target system.
         </p>
 
-        <h2 id="udp">UDP Flood</h2>
+        <pre><code>Attacker: Kali Linux
+Target: Ubuntu Server
+Network: Host-only / isolated lab environment</code></pre>
+
+        <h3 id="what-is-the-attack" class="subsection-title">What is the attack?</h3>
         <p>
-            Placeholder: Analyze high-volume UDP traffic and how services respond. Look for unusual port targeting and traffic spikes.
+            An ICMP flood is a denial-of-service technique that overwhelms a target with repeated ICMP Echo Requests,
+            forcing the system to process and respond to excessive ping traffic.
         </p>
 
-        <h2 id="syn">SYN Flood</h2>
+        <h3 id="attacker" class="subsection-title">How is it used by an attacker?</h3>
         <p>
-            Placeholder: Focus on incomplete TCP handshakes and server response behavior. Highlight SYN vs ACK imbalance.
+            An attacker sends a large volume of ICMP packets toward a host to increase resource consumption,
+            generate unnecessary replies, and create network congestion.
         </p>
 
-        <h2 id="analysis">Analysis Process</h2>
+        <h3 id="defender" class="subsection-title">What would I see as a defender?</h3>
         <p>
-            The goal of this analysis is to identify patterns rather than individual packets. 
-            By observing traffic behavior such as volume, frequency, and response patterns, it becomes easier to distinguish between normal and malicious activity.
+            As a defender, I observed repeated ICMP Echo Requests and Echo Replies in packet captures.
+            Traffic appeared at a sustained and abnormal rate from a single source IP.
+            System monitoring also showed increased network activity and potential resource strain.
         </p>
 
-        <h2 id="takeaways">Key Takeaways</h2>
-        <ul>
-            <li>Flood attacks are identifiable through traffic patterns</li>
-            <li>Packet imbalance is a strong indicator of malicious activity</li>
-            <li>Visualization tools like Wireshark help reveal hidden behaviors</li>
-        </ul>
+        <h3 id="detection" class="subsection-title">How would I detect it?</h3>
+        <p>
+            I would look for a sustained spike in ICMP traffic beyond normal baseline levels,
+            especially when originating from a single source.
+            In this lab, I used <span class="label">tcpdump</span> to observe the packet flow
+            and planned detection logic around repeated high-frequency ICMP activity.
+        </p>
+
+        <pre><code>sudo tcpdump -i any icmp</code></pre>
+
+        <h3 id="impact" class="subsection-title">System Impact Observed</h3>
+        <p>
+            Using <span class="label">top</span> on the Ubuntu target, I monitored CPU usage and load
+            during packet generation to identify whether the attack caused measurable system strain.
+        </p>
+
+        <pre><code>top</code></pre>
+
+        <p>
+            The key things I watched for were increased CPU usage, rising load averages,
+            and a sustained increase in packet-processing activity while the ICMP traffic was active.
+        </p>
+
+        <h3 id="engineering" class="subsection-title">Detection Engineering</h3>
+        <p>
+            I implemented a Snort IDS rule to detect ICMP flood behavior based on packet-rate thresholds
+            and validated the rule using simulated attack traffic in the lab.
+        </p>
+
+        <pre><code>alert icmp any any -&gt; $HOME_NET any (
+    msg:"ICMP Flood Detected";
+    detection_filter:track by_src, count 100, seconds 1;
+    sid:1000001;
+    rev:1;
+)</code></pre>
+
+        <p>
+            This approach is stronger than just saying “I sent a lot of pings.”
+            It shows the lab setup, attacker objective, defender visibility, impact analysis,
+            and how the behavior can be translated into detection logic.
+        </p>
+
+        <div class="figure">
+            <!-- Replace src below with your own screenshot later -->
+            <!-- Example: <img src="../images/icmp-wireshark.png" alt="ICMP traffic observed in lab"> -->
+            <div style="height: 260px; display: flex; align-items: center; justify-content: center; color: #8b949e; border: 1px dashed #30363d; border-radius: 6px;">
+                Wireshark / terminal screenshot goes here
+            </div>
+            <div class="figure-caption">
+                Figure: Capture area for ICMP flood evidence, such as repeated Echo Requests / Replies, tcpdump output, or resource monitoring.
+            </div>
+        </div>
+
+        <h2 id="next-steps" class="section-title">Next Steps</h2>
+        <p>
+            I can extend this writeup by adding packet captures, screenshots, and a short comparison section
+            for UDP and SYN floods using the same structure:
+            lab setup, attacker view, defender view, system impact, and detection engineering.
+        </p>
     </div>
 </div>
 
