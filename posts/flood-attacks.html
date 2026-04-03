@@ -4,356 +4,304 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flood Attacks Analysis</title>
-
 <style>
-body {
-    background: #0d1117;
-    color: #c9d1d9;
-    font-family: monospace;
-    margin: 0;
-    line-height: 1.7;
+:root{
+  --bg:#0d1117;
+  --code:#161b22;
+  --border:#30363d;
+  --text:#c9d1d9;
+  --muted:#8b949e;
+  --blue:#6cb6ff;
+  --red:#ff5c5c;
+  --white:#f0f6fc;
 }
-
-/* LEFT SIDEBAR */
-.sidebar {
-    width: 220px;
-    padding: 24px 20px;
-    border-right: 1px solid #30363d;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    background: #0d1117;
-    box-sizing: border-box;
-    overflow-y: auto;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:monospace;
+  font-size:25px;
+  margin:0;
+  line-height:1.95;
 }
-
-.sidebar h3 {
-    margin: 0 0 18px 0;
-    color: white;
-    font-size: 20px;
+.sidebar{
+  width:300px;
+  padding:30px 24px;
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  background:#0d1117;
+  overflow-y:auto;
 }
-
-.sidebar a {
-    display: block;
-    margin-bottom: 12px;
-    color: #58a6ff;
-    text-decoration: none;
-    font-size: 15px;
+.sidebar h3{
+  color:var(--white);
+  margin:0 0 18px 0;
+  font-size:34px;
 }
-
-.sidebar a:hover {
-    color: #79c0ff;
+.sidebar a{
+  display:block;
+  margin-bottom:13px;
+  color:var(--blue);
+  text-decoration:none;
 }
-
-/* MAIN AREA */
-.main {
-    margin-left: 220px;
-    min-height: 100vh;
+.sidebar a:hover{text-decoration:underline}
+.main{margin-left:300px}
+.header{
+  border-bottom:1px solid var(--border);
+  padding:24px 46px;
+  position:sticky;
+  top:0;
+  background:#0d1117;
 }
-
-/* HEADER */
-.header {
-    border-bottom: 1px solid #30363d;
-    padding: 24px 40px 20px 40px;
+.header h1{
+  color:var(--white);
+  margin:0 0 8px 0;
+  font-size:42px;
 }
-
-.header-inner {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    flex-wrap: wrap;
+.nav a{
+  margin-right:20px;
+  color:var(--blue);
+  text-decoration:none;
 }
-
-.header h1 {
-    margin: 0;
-    color: white;
-    font-size: 32px;
-    line-height: 1.2;
+.nav a:hover{text-decoration:underline}
+.content{
+  max-width:1060px;
+  padding:38px 46px 90px;
 }
-
-.nav {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
+.section-title{
+  color:var(--red);
+  font-size:56px;
+  margin:0 0 14px 0;
+  line-height:1.2;
 }
-
-.nav a {
-    color: #58a6ff;
-    text-decoration: none;
-    font-size: 15px;
+.subsection-title{
+  color:var(--blue);
+  margin:36px 0 12px;
+  font-size:38px;
+  line-height:1.25;
 }
-
-.nav a:hover {
-    color: #79c0ff;
+p{
+  margin:0 0 16px;
+  max-width:960px;
 }
-
-/* ARTICLE CONTENT */
-.content {
-    max-width: 900px;
-    padding: 32px 40px 60px 40px;
-    box-sizing: border-box;
+pre{
+  background:var(--code);
+  border:1px solid var(--border);
+  padding:16px 18px;
+  border-radius:10px;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin:10px 0 18px;
+  font-size:22px;
 }
-
-/* MAIN RED TITLES */
-.section-title {
-    color: #ff4d4d;
-    font-size: 42px;
-    margin: 0 0 16px 0;
-    line-height: 1.2;
+code{color:#e6edf3}
+.figure{margin:15px 0 24px}
+.figure a{display:block}
+.figure img{
+  width:100%;
+  display:block;
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:zoom-in;
 }
-
-/* BLUE SUBSECTION TITLES */
-.subsection-title {
-    color: #58a6ff;
-    font-size: 22px;
-    margin: 30px 0 10px 0;
-    line-height: 1.3;
+.note{color:var(--muted)}
+hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:42px 0;
 }
-
-/* NORMAL PARAGRAPH SPACING */
-.content p {
-    margin: 0 0 16px 0;
-    font-size: 17px;
+.footer-note{
+  color:var(--muted);
+  font-size:21px;
 }
-
-/* TAGS */
-.tags {
-    color: #8b949e;
-    margin-bottom: 28px;
-    font-size: 14px;
-}
-
-/* PANELS / BOXES */
-.panel {
-    background: #111827;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 18px 20px;
-    margin: 18px 0 24px 0;
-}
-
-.panel strong {
-    color: white;
-}
-
-/* CODE / COMMAND BOX */
-pre {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 16px;
-    overflow-x: auto;
-    color: #c9d1d9;
-    margin: 16px 0 24px 0;
-    font-size: 14px;
-}
-
-code {
-    font-family: monospace;
-}
-
-/* SCREENSHOT / FIGURE PLACEHOLDER */
-.figure {
-    background: #111827;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 14px;
-    margin: 18px 0 28px 0;
-}
-
-.figure img {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    display: block;
-}
-
-.figure-caption {
-    color: #8b949e;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-/* LISTS */
-.content ul {
-    margin: 0 0 20px 22px;
-}
-
-.content li {
-    margin-bottom: 8px;
-}
-
-/* INLINE LABEL STYLE */
-.label {
-    display: inline-block;
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 2px 8px;
-    color: #c9d1d9;
-    font-size: 13px;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .sidebar {
-        display: none;
-    }
-
-    .main {
-        margin-left: 0;
-    }
-
-    .header,
-    .content {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .section-title {
-        font-size: 34px;
-    }
+@media (max-width:980px){
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+  .main{margin-left:0}
+  .header{position:static}
 }
 </style>
 </head>
 <body>
-
 <div class="sidebar">
-    <h3>Contents</h3>
-    <a href="#overview">Overview</a>
-    <a href="#icmp">ICMP Flood</a>
-    <a href="#lab-setup">Lab Setup</a>
-    <a href="#what-is-the-attack">What is the attack?</a>
-    <a href="#attacker">How is it used by an attacker?</a>
-    <a href="#defender">What would I see as a defender?</a>
-    <a href="#detection">How would I detect it?</a>
-    <a href="#impact">System Impact Observed</a>
-    <a href="#engineering">Detection Engineering</a>
-    <a href="#next-steps">Next Steps</a>
+  <h3>Contents</h3>
+  <a href="#icmp">ICMP Flood</a>
+  <a href="#lab-setup">Lab Setup</a>
+  <a href="#ip-verification">Network / IP Verification</a>
+  <a href="#connectivity-test">Connectivity Test</a>
+  <a href="#snort-rules">My Snort Rules</a>
+  <a href="#traffic-capture-start">Traffic Capture Start</a>
+  <a href="#normal-icmp">Normal ICMP Behaviour</a>
+  <a href="#pcap-capture">Starting PCAP Capture</a>
+  <a href="#starting-snort">Starting Snort</a>
+  <a href="#icmp-flood-attack">ICMP Flood Attack</a>
+  <a href="#detection-output">Detection Output</a>
+  <a href="#verify-results">Verify Results</a>
+  <a href="#stealth-scans">Stealth Scans</a>
+  <a href="#scan-execution">Scan Execution</a>
+  <a href="#scan-detection">Snort Detection</a>
+  <a href="#transfer-capture">Transfer Capture</a>
+  <a href="#fin-filter">FIN Filter</a>
+  <a href="#null-filter">NULL Filter</a>
+  <a href="#xmas-filter">XMAS Filter</a>
+  <a href="#conclusion">Conclusion</a>
 </div>
 
 <div class="main">
-    <div class="header">
-        <div class="header-inner">
-            <h1>Flood Attacks Analysis</h1>
-            <div class="nav">
-                <a href="../index.html">Home</a>
-                <a href="../about.html">About Me</a>
-                <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
-                <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
-            </div>
-        </div>
+  <div class="header">
+    <h1>Nikola | Writeups</h1>
+    <div class="nav">
+      <a href="../index.html">Home</a>
+      <a href="../about.html">About</a>
+      <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+      <a href="https://app.hackthebox.com/profile/mantymanty12" target="_blank">HackTheBox</a>
     </div>
+  </div>
 
-    <div class="content">
-        <h2 id="overview" class="section-title">Overview</h2>
+  <div class="content">
+    <h2 id="icmp" class="section-title">ICMP Flood</h2>
+    <p>This writeup shows how Kali Linux acts as the attacker and Ubuntu Server acts as the target on an isolated host-only network. The goal was to generate baseline ICMP traffic, trigger an ICMP flood, perform stealth scans, capture the traffic with tcpdump and Wireshark, and verify detection with Snort.</p>
 
-        <div class="tags">dos • icmp • udp • tcp • wireshark • snort • linux</div>
+    <h3 id="lab-setup" class="subsection-title">Lab Setup</h3>
+    <p>The lab uses a Kali Linux attacker machine and an Ubuntu Server target configured on a host-only network so traffic can be generated and observed in an isolated environment without outside noise interfering with the test.</p>
+    <figure class="figure"><a href="images/lab_kali.png" target="_blank"><img src="images/lab_kali.png" alt="Kali Attack VM settings"></a></figure>
+    <figure class="figure"><a href="images/lab_ubuntu.png" target="_blank"><img src="images/lab_ubuntu.png" alt="Ubuntu Server VM settings"></a></figure>
 
-        <p>
-            This writeup focuses on flood-based denial-of-service behavior from a defensive perspective.
-            Rather than focusing on exploitation, the goal is to understand what the traffic looks like,
-            how the target system behaves, and how a defender could detect abnormal packet patterns in a lab environment.
-        </p>
+    <h3 id="ip-verification" class="subsection-title">Network / IP Verification</h3>
+    <p>The interfaces were reset and assigned static addresses to keep the attacker and target on the expected host-only subnet before any traffic generation began.</p>
+    <pre><code>sudo ip addr flush dev enp0s8
+sudo ip link set enp0s8 down
+sudo ip link set enp0s8 up
+sudo ip addr add 192.168.56.106/24 dev enp0s8
+ip a
 
-        <div class="panel">
-            <strong>Writeup style:</strong> red headings mark major sections, blue headings break the analysis into smaller steps,
-            and command/output blocks are used to document observations clearly.
-        </div>
+sudo ip addr flush dev eth1
+sudo ip link set eth1 down
+sudo ip link set eth1 up
+sudo ip addr add 192.168.56.100/24 dev eth1
+ip a</code></pre>
+    <figure class="figure"><a href="images/ubuntu_ip.png" target="_blank"><img src="images/ubuntu_ip.png" alt="Ubuntu IP configuration"></a></figure>
+    <figure class="figure"><a href="images/kali_ip.png" target="_blank"><img src="images/kali_ip.png" alt="Kali IP configuration"></a></figure>
 
-        <h2 id="icmp" class="section-title">ICMP Flood</h2>
+    <h3 id="connectivity-test" class="subsection-title">Connectivity Test</h3>
+    <p>A simple ping test was used to confirm that Kali could reach the Ubuntu target before the monitoring and attack steps were started.</p>
+    <pre><code>ping 192.168.56.106</code></pre>
+    <figure class="figure"><a href="images/ping_test.png" target="_blank"><img src="images/ping_test.png" alt="Ping connectivity test"></a></figure>
 
-        <h3 id="lab-setup" class="subsection-title">Lab Setup</h3>
-        <p>
-            Two virtual machines were configured in an isolated host-only network.
-            Kali Linux acted as the attacker machine and Ubuntu Server acted as the target system.
-        </p>
+    <h3 id="snort-rules" class="subsection-title">My Snort Rules</h3>
+    <p>These rules define the protocol being watched, the traffic direction toward the home network, the packet characteristics such as ICMP type or TCP flags, and the alert message and SID used when a match occurs. The ICMP and SYN rules also include thresholds so repeated behavior triggers alerts instead of every single packet creating noise.</p>
+    <pre><code>nano /etc/snort/rules/local.rules
 
-        <pre><code>Attacker: Kali Linux
-Target: Ubuntu Server
-Network: Host-only / isolated lab environment</code></pre>
+first we will try icmp
+alert icmp any any -> $HOME_NET any (itype:8; msg:"ICMP Flood Detected"; detection_filter:track by_src, count 20, seconds 2; sid:1000007; rev:1;)
 
-        <h3 id="what-is-the-attack" class="subsection-title">What is the attack?</h3>
-        <p>
-            An ICMP flood is a denial-of-service technique that overwhelms a target with repeated ICMP Echo Requests,
-            forcing the system to process and respond to excessive ping traffic.
-        </p>
+alert tcp any any -> $HOME_NET any (flags:S; msg:"SYN Scan Detected"; threshold:type both, track by_src, count 10, seconds 5; sid:1000006; rev:1;)
 
-        <h3 id="attacker" class="subsection-title">How is it used by an attacker?</h3>
-        <p>
-            An attacker sends a large volume of ICMP packets toward a host to increase resource consumption,
-            generate unnecessary replies, and create network congestion.
-        </p>
+alert tcp any any -> $HOME_NET any (flags:0; msg:"NULL Scan Detected"; sid:1000003; rev:1;)
 
-        <h3 id="defender" class="subsection-title">What would I see as a defender?</h3>
-        <p>
-            As a defender, I observed repeated ICMP Echo Requests and Echo Replies in packet captures.
-            Traffic appeared at a sustained and abnormal rate from a single source IP.
-            System monitoring also showed increased network activity and potential resource strain.
-        </p>
+alert tcp any any -> $HOME_NET any (flags:F; msg:"FIN Scan Detected"; sid:1000004; rev:1;)
 
-        <h3 id="detection" class="subsection-title">How would I detect it?</h3>
-        <p>
-            I would look for a sustained spike in ICMP traffic beyond normal baseline levels,
-            especially when originating from a single source.
-            In this lab, I used <span class="label">tcpdump</span> to observe the packet flow
-            and planned detection logic around repeated high-frequency ICMP activity.
-        </p>
+alert tcp any any -> $HOME_NET any (flags:FPU; msg:"XMAS Scan Detected"; sid:1000005; rev:1;)</code></pre>
+    <figure class="figure"><a href="images/snort_rules.png" target="_blank"><img src="images/snort_rules.png" alt="Snort local rules"></a></figure>
 
-        <pre><code>sudo tcpdump -i any icmp</code></pre>
+    <h3 id="traffic-capture-start" class="subsection-title">Traffic Capture Start</h3>
+    <p>An initial ping was sent to produce clean baseline traffic before beginning the packet capture and alerting steps.</p>
+    <pre><code>ping 192.168.56.106</code></pre>
+    <figure class="figure"><a href="images/ping_baseline.png" target="_blank"><img src="images/ping_baseline.png" alt="Baseline ping traffic"></a></figure>
 
-        <h3 id="impact" class="subsection-title">System Impact Observed</h3>
-        <p>
-            Using <span class="label">top</span> on the Ubuntu target, I monitored CPU usage and load
-            during packet generation to identify whether the attack caused measurable system strain.
-        </p>
+    <h3 id="normal-icmp" class="subsection-title">Normal ICMP Behaviour</h3>
+    <p>Baseline ICMP traffic was observed with tcpdump to identify normal request and reply patterns before increasing the packet rate.</p>
+    <pre><code>sudo tcpdump -i enp0s8 icmp</code></pre>
+    <figure class="figure"><a href="images/tcpdump_icmp.png" target="_blank"><img src="images/tcpdump_icmp.png" alt="Normal ICMP behaviour in tcpdump"></a></figure>
 
-        <pre><code>top</code></pre>
+    <h3 id="pcap-capture" class="subsection-title">Starting PCAP Capture</h3>
+    <p>A full packet capture was started so the traffic could be saved and reviewed later in Wireshark after the attack was complete.</p>
+    <pre><code>sudo tcpdump -i enp0s8 -w capture_flood.pcap</code></pre>
+    <figure class="figure"><a href="images/pcap_start.png" target="_blank"><img src="images/pcap_start.png" alt="Starting pcap capture"></a></figure>
 
-        <p>
-            The key things I watched for were increased CPU usage, rising load averages,
-            and a sustained increase in packet-processing activity while the ICMP traffic was active.
-        </p>
+    <h3 id="starting-snort" class="subsection-title">Starting Snort</h3>
+    <p>Snort was started in a second terminal so the console alerts could be monitored live while packet generation continued in the first terminal.</p>
+    <pre><code>sudo snort -A console -c /etc/snort/snort.conf -i enp0s8</code></pre>
+    <figure class="figure"><a href="images/snort_start1.png" target="_blank"><img src="images/snort_start1.png" alt="Starting Snort terminal one"></a></figure>
+    <figure class="figure"><a href="images/snort_start2.png" target="_blank"><img src="images/snort_start2.png" alt="Starting Snort terminal two"></a></figure>
 
-        <h3 id="engineering" class="subsection-title">Detection Engineering</h3>
-        <p>
-            I implemented a Snort IDS rule to detect ICMP flood behavior based on packet-rate thresholds
-            and validated the rule using simulated attack traffic in the lab.
-        </p>
+    <h3 id="icmp-flood-attack" class="subsection-title">ICMP Flood Attack</h3>
+    <p>The flood command kept the normal ping behavior but added a very small interval value with <code>-i 0.002</code> so packets were sent much more rapidly and the target had to process a far higher rate of ICMP requests.</p>
+    <pre><code>sudo ping -i 0.002 192.168.56.106</code></pre>
+    <figure class="figure"><a href="images/icmp_flood.png" target="_blank"><img src="images/icmp_flood.png" alt="ICMP flood attack"></a></figure>
 
-        <pre><code>alert icmp any any -&gt; $HOME_NET any (
-    msg:"ICMP Flood Detected";
-    detection_filter:track by_src, count 100, seconds 1;
-    sid:1000001;
-    rev:1;
-)</code></pre>
+    <h3 id="detection-output" class="subsection-title">Detection Output</h3>
+    <p>Snort generated alerts when the ICMP flood threshold was reached, showing repeated Echo Requests from the attacker toward the target.</p>
+    <pre><code>sudo snort -A console -c /etc/snort/snort.conf -i enp0s8</code></pre>
+    <figure class="figure"><a href="images/snort_icmp_alert1.png" target="_blank"><img src="images/snort_icmp_alert1.png" alt="Snort detecting ICMP flood"></a></figure>
+    <figure class="figure"><a href="images/snort_icmp_alert2.png" target="_blank"><img src="images/snort_icmp_alert2.png" alt="Snort detecting ICMP flood additional alerts"></a></figure>
 
-        <p>
-            This approach is stronger than just saying “I sent a lot of pings.”
-            It shows the lab setup, attacker objective, defender visibility, impact analysis,
-            and how the behavior can be translated into detection logic.
-        </p>
+    <h3 id="verify-results" class="subsection-title">Verify Results</h3>
+    <p>The generated packet captures were reviewed and transferred to confirm the files were saved correctly and could be opened in Wireshark for analysis.</p>
+    <pre><code>ls -lh *.pcap</code></pre>
+    <figure class="figure"><a href="images/pcap_list.png" target="_blank"><img src="images/pcap_list.png" alt="Listing pcap files"></a></figure>
+    <pre><code>scp nikola@192.168.56.106:/home/nikola/capture_flood2.pcap .</code></pre>
+    <figure class="figure"><a href="images/scp_flood2.png" target="_blank"><img src="images/scp_flood2.png" alt="Copying capture_flood2.pcap"></a></figure>
+    <pre><code>wireshark capture_flood2.pcap</code></pre>
+    <figure class="figure"><a href="images/wireshark_flood1.png" target="_blank"><img src="images/wireshark_flood1.png" alt="Wireshark flood capture view one"></a></figure>
+    <figure class="figure"><a href="images/wireshark_flood2.png" target="_blank"><img src="images/wireshark_flood2.png" alt="Wireshark flood capture view two"></a></figure>
 
-        <div class="figure">
-            <!-- Replace src below with your own screenshot later -->
-            <!-- Example: <img src="../images/icmp-wireshark.png" alt="ICMP traffic observed in lab"> -->
-            <div style="height: 260px; display: flex; align-items: center; justify-content: center; color: #8b949e; border: 1px dashed #30363d; border-radius: 6px;">
-                Wireshark / terminal screenshot goes here
-            </div>
-            <div class="figure-caption">
-                Figure: Capture area for ICMP flood evidence, such as repeated Echo Requests / Replies, tcpdump output, or resource monitoring.
-            </div>
-        </div>
+    <hr>
 
-        <h2 id="next-steps" class="section-title">Next Steps</h2>
-        <p>
-            I can extend this writeup by adding packet captures, screenshots, and a short comparison section
-            for UDP and SYN floods using the same structure:
-            lab setup, attacker view, defender view, system impact, and detection engineering.
-        </p>
-    </div>
+    <h2 id="stealth-scans" class="section-title">Stealth Scans</h2>
+    <p>Stealth scans were performed to simulate reconnaissance activity against the Ubuntu target. These scans use unusual TCP flag combinations to gather information without completing a full connection. The resulting traffic was captured and compared against Snort alerts and Wireshark filters.</p>
+
+    <h3 class="subsection-title">Starting PCAP Capture</h3>
+    <pre><code>sudo tcpdump -i enp0s8 -w capture_flood3.pcap</code></pre>
+    <figure class="figure"><a href="images/pcap3_start.png" target="_blank"><img src="images/pcap3_start.png" alt="Starting capture_flood3.pcap"></a></figure>
+
+    <h3 class="subsection-title">Starting Snort</h3>
+    <pre><code>sudo snort -A console -c /etc/snort/snort.conf -i enp0s8</code></pre>
+    <p class="note">Snort was restarted for the scan phase before the Nmap probes were launched.</p>
+
+    <h3 id="scan-execution" class="subsection-title">Scan Execution</h3>
+    <p>Multiple Nmap scan types were launched to generate SYN, FIN, NULL, and XMAS traffic against the target system.</p>
+    <pre><code>nmap -sS 192.168.56.106
+nmap -sF 192.168.56.106
+nmap -sN 192.168.56.106
+nmap -sX 192.168.56.106</code></pre>
+    <figure class="figure"><a href="images/nmap_scans.png" target="_blank"><img src="images/nmap_scans.png" alt="Stealth scan execution"></a></figure>
+
+    <h3 id="scan-detection" class="subsection-title">Snort Detection</h3>
+    <p>Snort rules detected the abnormal TCP flag combinations and generated alerts for the scan activity during the capture window.</p>
+    <figure class="figure"><a href="images/snort_scan_alerts.png" target="_blank"><img src="images/snort_scan_alerts.png" alt="Snort detecting stealth scans"></a></figure>
+
+    <h3 id="transfer-capture" class="subsection-title">Transfer Capture</h3>
+    <p>The scan capture was copied for analysis so the packets could be reviewed in Wireshark with display filters for each scan type.</p>
+    <pre><code>scp nikola@192.168.56.106:/home/nikola/capture_flood3.pcap .</code></pre>
+    <figure class="figure"><a href="images/scp_flood3.png" target="_blank"><img src="images/scp_flood3.png" alt="Copying capture_flood3.pcap"></a></figure>
+
+    <h3 id="fin-filter" class="subsection-title">FIN Scan Filter</h3>
+    <pre><code>tcp.flags.fin == 1 && tcp.flags.syn == 0 && tcp.flags.ack == 0</code></pre>
+    <figure class="figure"><a href="images/wireshark_fin.png" target="_blank"><img src="images/wireshark_fin.png" alt="Wireshark FIN scan filter"></a></figure>
+
+    <h3 id="null-filter" class="subsection-title">NULL Scan Filter</h3>
+    <pre><code>tcp.flags == 0x000</code></pre>
+    <figure class="figure"><a href="images/wireshark_null.png" target="_blank"><img src="images/wireshark_null.png" alt="Wireshark NULL scan filter"></a></figure>
+
+    <h3 id="xmas-filter" class="subsection-title">XMAS Scan Filter</h3>
+    <pre><code>tcp.flags == 0x029</code></pre>
+    <figure class="figure"><a href="images/wireshark_xmas.png" target="_blank"><img src="images/wireshark_xmas.png" alt="Wireshark XMAS scan filter"></a></figure>
+
+    <h3 id="conclusion" class="subsection-title">Conclusion</h3>
+    <p>This lab showed how both denial-of-service style traffic and stealth reconnaissance scans can be generated, captured, and detected in a controlled environment. Using tcpdump, Wireshark, and Snort together made it possible to compare traffic and confirm that the custom rules worked. This simple lab demonstrates how traffic analysis and alerts can support network defense and investigation.</p>
+    <p class="footer-note">Each screenshot opens in a new tab at full size when clicked.</p>
+  </div>
 </div>
-
 </body>
 </html>
+
