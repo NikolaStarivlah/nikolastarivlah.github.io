@@ -3,87 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <title>Nikola | Writeups</title>
-
 <style>
 body {
     background: #0d1117;
     color: #c9d1d9;
     font-family: monospace;
     margin: 0;
+    font-size: 25px;
+    line-height: 1.9;
 }
-
 .container {
-    max-width: 800px;
+    max-width: 980px;
     margin: auto;
-    padding: 20px;
+    padding: 34px;
 }
-
 .header {
     display: flex;
     align-items: center;
-    gap: 15px;  /* space between name and links */
-    padding: 20px 0;
+    gap: 18px;
+    padding: 24px 0 30px;
+    flex-wrap: wrap;
 }
-
 .header h1 {
     margin: 0;
     color: white;
-    font-size: 24px;
+    font-size: 42px;
 }
-
 .nav {
     display: flex;
-    gap: 15px;
+    gap: 18px;
+    flex-wrap: wrap;
 }
-
-.nav a {
-    color: #58a6ff;
-    text-decoration: none;
-}
-
-.post {
-    margin-bottom: 30px;
-}
-
-.post h2 {
-    margin-bottom: 5px;
-}
-
+.nav a,
 .post a {
     color: #58a6ff;
     text-decoration: none;
 }
-
+.nav a:hover,
+.post a:hover {
+    text-decoration: underline;
+}
+.post {
+    margin-bottom: 40px;
+    padding: 24px;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    background: #111827;
+}
+.post h2 {
+    margin: 0 0 12px;
+    font-size: 34px;
+}
+.post p {
+    margin: 0 0 14px;
+}
 .tags {
     color: #8b949e;
-    font-size: 14px;
+    font-size: 22px;
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
     <div class="header">
-        <h1>Nikola Writeups</h1>
+        <h1>Nikola | Writeups</h1>
         <div class="nav">
             <a href="index.html">Home</a>
             <a href="about.html">About Me</a>
             <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
-            <a href="https://profile.hackthebox.com/profile/019d285d-1a00-7221-a3cd-e33b08c4491b" target="_blank">HackTheBox</a>
+            <a href="https://app.hackthebox.com/profile/mantymanty12" target="_blank">HackTheBox</a>
         </div>
     </div>
 
     <div class="post">
-        <h2>
-            <a href="posts/flood-attacks.html">Flood Attacks Analysis</a>
-        </h2>
-        <p>
-            Breaking down ICMP, UDP, and SYN flood attacks through packet analysis and detection patterns, focusing on how abnormal traffic behavior reveals denial-of-service activity.
-        </p>
-        <div class="tags">dos • tcp • udp • icmp • wireshark • analysis</div>
+        <h2><a href="posts/flood-attacks.html">Flood Attacks Analysis</a></h2>
+        <p>Breaking down ICMP and stealth scan traffic through packet capture, Snort detection, and Wireshark analysis in a small controlled lab.</p>
+        <div class="tags">network security • snort • tcpdump • wireshark • icmp • nmap • ids • packet analysis • detection engineering • lab writeup</div>
     </div>
 </div>
-
 </body>
 </html>
+
