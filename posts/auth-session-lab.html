@@ -1,0 +1,516 @@
+<style>
+:root{
+  --bg:#0d1117;
+  --code:#161b22;
+  --border:#30363d;
+  --text:#c9d1d9;
+  --muted:#8b949e;
+  --blue:#6cb6ff;
+  --red:#ff5c5c;
+  --white:#f0f6fc;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:monospace;
+  font-size:25px;
+  margin:0;
+  line-height:1.95;
+}
+
+/* Sidebar */
+.sidebar{
+  width:300px;
+  padding:30px 24px;
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  background:var(--bg);
+  overflow-y:auto;
+}
+
+.sidebar h3{
+  color:var(--white);
+  margin:0 0 18px 0;
+  font-size:34px;
+}
+
+.sidebar a{
+  display:block;
+  margin-bottom:13px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+.sidebar a:hover{
+  text-decoration:underline;
+}
+
+.main{
+  margin-left:300px;
+}
+
+/* Header */
+.header{
+  border-bottom:1px solid var(--border);
+  padding:24px 46px;
+  position:sticky;
+  top:0;
+  background:var(--bg);
+}
+
+.header h1{
+  color:var(--white);
+  margin:0 0 8px 0;
+  font-size:42px;
+}
+
+.nav a{
+  margin-right:20px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+.nav a:hover{
+  text-decoration:underline;
+}
+
+/* Content */
+.content{
+  max-width:1060px;
+  padding:38px 46px 90px;
+}
+
+/* Titles */
+.section-title{
+  color:var(--red);
+  font-size:56px;
+  margin:0 0 14px 0;
+  line-height:1.2;
+}
+
+.subsection-title{
+  color:var(--blue);
+  margin:36px 0 12px;
+  font-size:38px;
+  line-height:1.25;
+}
+
+p{
+  margin:0 0 16px;
+  max-width:960px;
+}
+
+ul{
+  margin:0 0 18px 28px;
+  padding:0;
+}
+
+li{
+  margin:0 0 8px;
+}
+
+/* Code */
+pre{
+  background:var(--code);
+  border:1px solid var(--border);
+  padding:16px 18px;
+  border-radius:10px;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin:10px 0 18px;
+  font-size:22px;
+}
+
+code{
+  color:#e6edf3;
+}
+
+/* Images */
+.figure{
+  margin:15px 0 24px;
+}
+
+.figure a{
+  display:block;
+}
+
+.figure img{
+  width:100%;
+  display:block;
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:zoom-in;
+}
+
+.note{
+  color:var(--muted);
+}
+
+hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:42px 0;
+}
+
+.footer-note{
+  color:var(--muted);
+  font-size:21px;
+}
+
+@media (max-width:980px){
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .header{
+    position:static;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>Contents</h3>
+
+<a href="#setup">Lab Setup</a>
+<a href="#enum">Username Enumeration</a>
+<a href="#session">Session Weakness</a>
+<a href="#fixation">Session Fixation</a>
+<a href="#access">Access Control</a>
+<a href="#part2">Security Improvements</a>
+<a href="#metrics">Metrics Dashboard</a>
+<a href="#logs">Browser Logs</a>
+<a href="#conclusion">Conclusion</a>
+</div>
+
+<div class="main">
+
+<div class="header">
+<h1>Nikola | Writeups</h1>
+
+<div class="nav">
+<a href="../index.html">Home</a>
+<a href="../about.html">About</a>
+<a href="https://tryhackme.com/" target="_blank">TryHackMe</a>
+<a href="https://www.hackthebox.com/" target="_blank">HTB</a>
+</div>
+</div>
+<div class="content">
+<ul>
+
+<li>
+Initial Vulnerable Build:
+<a href="https://github.com/NikolaStarivlah/auth-session-v1" target="_blank">
+auth-session-v1
+</a>
+</li>
+
+<h2 id="setup" class="section-title">Auth Session Lab</h2>
+
+<p>
+This project was built as a simple Node.js authentication lab using Express,
+express-session, EJS and body-parser. The goal was to intentionally create weak
+authentication and session logic, then improve it step by step.
+</p>
+
+<div class="figure">
+<a href="images/1_config.png" target="_blank">
+<img src="images/1_config.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/2_config.png" target="_blank">
+<img src="images/2_config.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/3_config.png" target="_blank">
+<img src="images/3_config.png">
+</a>
+</div>
+
+<p>
+The screenshots above show the project structure, dependency installation,
+and the application running locally on <code>http://localhost:3000</code>.
+</p>
+
+<hr>
+
+<h2 id="enum" class="section-title">Username Enumeration</h2>
+
+<p>
+The original login flow revealed valid usernames through different responses.
+A fake username returned a different message than a real username with the wrong password.
+</p>
+
+<div class="figure">
+<a href="images/4_invalidusernotfound.png" target="_blank">
+<img src="images/4_invalidusernotfound.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/4_invalidusernotfound2.png" target="_blank">
+<img src="images/4_invalidusernotfound2.png">
+</a>
+</div>
+
+<p>
+When a non-existent account is submitted, the application returns
+<code>User not found</code>.
+</p>
+
+<div class="figure">
+<a href="images/5_validuserincorrectpassword.png" target="_blank">
+<img src="images/5_validuserincorrectpassword.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/5_validuserincorrectpassword2.png" target="_blank">
+<img src="images/5_validuserincorrectpassword2.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/5_validuserincorrectpassword3.png" target="_blank">
+<img src="images/5_validuserincorrectpassword3.png">
+</a>
+</div>
+
+<p>
+When the valid username <code>admin</code> is submitted with an incorrect password,
+the application returns <code>Incorrect password</code>.
+Because these messages are different, an attacker can distinguish valid accounts
+from invalid ones and build a more efficient brute-force target list.
+</p>
+
+<hr>
+
+<h2 id="session" class="section-title">Session Weakness</h2>
+
+<p>
+After a successful login, the browser receives a session cookie.
+If a session token is stolen or reused, it can allow account takeover.
+</p>
+
+<div class="figure">
+<a href="images/6_sessioncookie.png" target="_blank">
+<img src="images/6_sessioncookie.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/6_sessioncookie2.png" target="_blank">
+<img src="images/6_sessioncookie2.png">
+</a>
+</div>
+
+<p>
+The application used weak session handling with
+<code>saveUninitialized: true</code> and did not regenerate the session after login.
+</p>
+
+<hr>
+
+<h2 id="fixation" class="section-title">Session Fixation</h2>
+
+<p>
+Session fixation happens when an attacker sets a session first,
+the victim logs in, and the attacker reuses the same session ID.
+</p>
+
+<div class="figure">
+<a href="images/6_sessioncookieattack.png" target="_blank">
+<img src="images/6_sessioncookieattack.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/6_sessioncookieattack2.png" target="_blank">
+<img src="images/6_sessioncookieattack2.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/6_sessioncookieattack3.png" target="_blank">
+<img src="images/6_sessioncookieattack3.png">
+</a>
+</div>
+
+<p>
+Because the session ID was trusted before authentication,
+the attacker could reuse the same cookie after the victim logged in.
+</p>
+
+<div class="figure">
+<a href="images/7_sessionfixation.png" target="_blank">
+<img src="images/7_sessionfixation.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/7_sessionfixation2.png" target="_blank">
+<img src="images/7_sessionfixation2.png">
+</a>
+</div>
+
+<div class="figure">
+<a href="images/7_sessionfixation3.png" target="_blank">
+<img src="images/7_sessionfixation3.png">
+</a>
+</div>
+
+<hr>
+
+<h2 id="access" class="section-title">Access Control</h2>
+
+<p>
+The admin route used weak authorization logic.
+This meant access checks depended only on session values.
+</p>
+
+<div class="figure">
+<a href="images/8_accesscontrol.png" target="_blank">
+<img src="images/8_accesscontrol.png">
+</a>
+</div>
+
+<p>
+Weak access control combined with session issues can make role protection meaningless.
+</p>
+
+<hr>
+
+<h2 id="part2" class="section-title">Security Improvements</h2>
+
+<p>
+The lab was then upgraded to demonstrate common defensive controls.
+Middleware was added for:
+</p>
+
+<p>
+- Rate limiting to slow brute-force attempts<br>
+- Account lockout after repeated failures<br>
+- Login logging for visibility<br>
+- Generic login errors to stop username enumeration
+</p>
+
+<p>
+Instead of separate messages, the login now returns:
+<code>Invalid credentials</code>
+</p>
+
+<div class="figure">
+<a href="images/9_authlogvirtualstudio.png" target="_blank">
+<img src="images/9_authlogvirtualstudio.png">
+</a>
+</div>
+
+<p>
+Authentication events were written into <code>auth.log</code>
+including successful logins, failures, rate-limit blocks and lockouts.
+</p>
+
+<hr>
+
+<h2 id="metrics" class="section-title">Metrics Dashboard</h2>
+
+<p>
+A metrics page was created to summarize attack activity and login behavior.
+</p>
+
+<div class="figure">
+<a href="images/10_metricsnoadminconfirmation.png" target="_blank">
+<img src="images/10_metricsnoadminconfirmation.png">
+</a>
+</div>
+
+<p>
+The first version exposed metrics publicly, so access control was added to restrict
+the page to authenticated admin users only.
+</p>
+
+<div class="figure">
+<a href="images/11_metricsadditions.png" target="_blank">
+<img src="images/11_metricsadditions.png">
+</a>
+</div>
+
+<p>
+The improved dashboard now shows:
+</p>
+
+<p>
+- Successful logins<br>
+- Failed logins<br>
+- Rate limit blocks<br>
+- Lockouts triggered<br>
+- Most targeted username
+</p>
+
+<hr>
+
+<h2 id="logs" class="section-title">Browser Logs Dashboard</h2>
+
+<p>
+Instead of opening log files in VS Code, a browser route was added
+to read the log file directly through the application.
+</p>
+
+<div class="figure">
+<a href="images/12_browserauthlogs.png" target="_blank">
+<img src="images/12_browserauthlogs.png">
+</a>
+</div>
+
+<p>
+This creates a lightweight monitoring panel for reviewing suspicious activity.
+</p>
+
+<li>
+Final Hardened Build:
+<a href="https://github.com/NikolaStarivlah/auth-session-lab" target="_blank">
+auth-session-lab
+</a>
+</li>
+
+<hr>
+
+<h2 id="conclusion" class="section-title">Conclusion</h2>
+
+<p>
+This lab demonstrated both offensive and defensive authentication concepts.
+It started with username enumeration, weak sessions and role abuse,
+then improved into a monitored authentication system with logging,
+rate limiting, lockouts and admin-only dashboards.
+</p>
+
+
+</ul>
+
+</div>
+</div>
+
+</body>
+</html>
