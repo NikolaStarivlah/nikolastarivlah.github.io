@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nikola | Writeups</title>
+<style>
+body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: monospace;
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.9;
+}
+.container {
+    max-width: 980px;
+    margin: auto;
+    padding: 34px;
+}
+.header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px 0 30px;
+    flex-wrap: wrap;
+}
+.header h1 {
+    margin: 0;
+    color: white;
+    font-size: 42px;
+}
+.nav {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+.nav a,
+.post a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+.nav a:hover,
+.post a:hover {
+    text-decoration: underline;
+}
+.post {
+    margin-bottom: 40px;
+    padding: 24px;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    background: #111827;
+}
+.post h2 {
+    margin: 0 0 12px;
+    font-size: 34px;
+}
+.post p {
+    margin: 0 0 14px;
+}
+.tags {
+    color: #8b949e;
+    font-size: 22px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Nikola | Writeups</h1>
+        <div class="nav">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="https://tryhackme.com/p/DrRobotNIK" target="_blank">TryHackMe</a>
+            <a href="https://app.hackthebox.com/profile/mantymanty12" target="_blank" style="color:#9fef00;">HTB</a>
+        </div>
+    </div>
+<div class="post">
+    <h2><a href="posts/auth-session-lab.html">Authentication &amp; Session Exploitation Lab</a></h2>
+    <p>Built and analyzed a deliberately vulnerable Node.js application to demonstrate username enumeration, session hijacking, session fixation, and access control weaknesses in a controlled lab.</p>
+    <div class="tags">web security • authentication • session management • express • node.js • cookies • access control • privilege escalation • lab writeup</div>
+</div>
+<div class="post">
+    <h2><a href="posts/vulnerable-app.html">Vulnerable App Analysis (XSS + Access Control)</a></h2>
+    <p>Built and analyzed a deliberately vulnerable Node.js application to demonstrate reflected XSS, session handling weaknesses, detection logging, and mitigation using input sanitization and Nginx reverse proxy filtering.</p>
+    <div class="tags">web security • xss • express • session management • nginx • reverse proxy • waf • detection • logging • node.js • ejs • lab writeup</div>
+</div>
+    <div class="post">
+        <h2><a href="posts/flood-attacks.html">Flood Attacks Analysis</a></h2>
+        <p>Breaking down ICMP and stealth scan traffic through packet capture, Snort detection, and Wireshark analysis in a small controlled lab.</p>
+        <div class="tags">network security • snort • tcpdump • wireshark • icmp • nmap • ids • packet analysis • detection engineering • lab writeup</div>
+    </div>
+</div>
+</body>
+</html>
