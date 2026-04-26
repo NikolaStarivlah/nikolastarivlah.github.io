@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Broken Access Control Lab | Nikola</title>
+
+<style>
+:root{
+  --bg:#0d1117;
+  --code:#161b22;
+  --border:#30363d;
+  --text:#c9d1d9;
+  --muted:#8b949e;
+  --blue:#6cb6ff;
+  --red:#ff5c5c;
+  --white:#f0f6fc;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:monospace;
+  font-size:25px;
+  margin:0;
+  line-height:1.95;
+}
+
+.sidebar{
+  width:300px;
+  padding:30px 24px;
+  border-right:1px solid var(--border);
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  background:var(--bg);
+  overflow-y:auto;
+}
+
+.sidebar h3{
+  color:var(--white);
+  margin:0 0 18px 0;
+  font-size:34px;
+}
+
+.sidebar a{
+  display:block;
+  margin-bottom:13px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+.sidebar a:hover{
+  text-decoration:underline;
+}
+
+.main{
+  margin-left:300px;
+}
+
+.header{
+  border-bottom:1px solid var(--border);
+  padding:24px 46px;
+  position:sticky;
+  top:0;
+  background:var(--bg);
+}
+
+.header h1{
+  color:var(--white);
+  margin:0 0 8px 0;
+  font-size:42px;
+}
+
+.nav a{
+  margin-right:20px;
+  color:var(--blue);
+  text-decoration:none;
+}
+
+.nav a:hover{
+  text-decoration:underline;
+}
+
+.content{
+  max-width:1060px;
+  padding:38px 46px 90px;
+}
+
+.section-title{
+  color:var(--red);
+  font-size:56px;
+  margin:0 0 14px 0;
+  line-height:1.2;
+}
+
+.subsection-title{
+  color:var(--blue);
+  margin:36px 0 12px;
+  font-size:38px;
+  line-height:1.25;
+}
+
+p{
+  margin:0 0 16px;
+  max-width:960px;
+}
+
+ul{
+  margin:0 0 18px 28px;
+  padding:0;
+}
+
+li{
+  margin:0 0 8px;
+}
+
+pre{
+  background:var(--code);
+  border:1px solid var(--border);
+  padding:16px 18px;
+  border-radius:10px;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin:10px 0 18px;
+  font-size:22px;
+}
+
+code{
+  color:#e6edf3;
+}
+
+.figure{
+  margin:15px 0 24px;
+}
+
+.figure a{
+  display:block;
+}
+
+.figure img{
+  width:100%;
+  display:block;
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:zoom-in;
+}
+
+.note{
+  color:var(--muted);
+}
+
+hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:42px 0;
+}
+
+.footer-note{
+  color:var(--muted);
+  font-size:21px;
+}
+
+@media (max-width:980px){
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .header{
+    position:static;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>Contents</h3>
+
+<a href="#setup">Lab Setup</a>
+<a href="#vuln">Initial Vulnerabilities</a>
+<a href="#idor">BOLA / IDOR</a>
+<a href="#orders">Broken Object Access</a>
+<a href="#admin">Privilege Escalation</a>
+<a href="#mass">Mass Assignment</a>
+<a href="#fixes">Security Hardening</a>
+<a href="#verify">Verification Testing</a>
+<a href="#conclusion">Conclusion</a>
+</div>
+
+<div class="main">
+
+<div class="header">
+<h1>Nikola | Writeups</h1>
+
+<div class="nav">
+<a href="../index.html">Home</a>
+<a href="../about.html">About</a>
+<a href="https://tryhackme.com/" target="_blank">TryHackMe</a>
+<a href="https://www.hackthebox.com/" target="_blank">HTB</a>
+</div>
+</div>
+
+<div class="content">
+<ul>
+
+<li>
+Initial Vulnerable Build:
+<a href="https://github.com/NikolaStarivlah/broken-access-api-lab-v1" target="_blank">
+broken-access-api-lab-v1
+</a>
+</li>
+
+<h2 id="setup" class="section-title">Broken Access Control Lab</h2>
+
+<p>
+This project was built as a vulnerable Node.js REST application using Express,
+sessions, EJS views and JSON data storage. The goal was to intentionally create
+common access control failures, exploit them, then harden the application using
+proper authorization checks.
+</p>
+
+<div class="figure">
+<a href="images/1_brokenaccess_vuln.png" target="_blank">
+<img src="images/1_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+The application starts with a simple login portal and multiple test users:
+<code>alice</code>, <code>bob</code> and <code>admin</code>.
+</p>
+
+<hr>
+
+<h2 id="vuln" class="section-title">Initial Vulnerabilities</h2>
+
+<p>
+After login, regular users could directly access links that should have required
+ownership checks or elevated privileges.
+</p>
+
+<div class="figure">
+<a href="images/2_brokenaccess_vuln.png" target="_blank">
+<img src="images/2_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+The dashboard exposed direct object references for users, orders and admin routes.
+</p>
+
+<hr>
+
+<h2 id="idor" class="section-title">BOLA / IDOR User Enumeration</h2>
+
+<p>
+Alice was able to browse directly to another user record by changing the ID in the URL.
+No ownership validation was performed server-side.
+</p>
+
+<div class="figure">
+<a href="images/3_brokenaccess_vuln.png" target="_blank">
+<img src="images/3_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+Sensitive data such as usernames, email addresses and roles were disclosed.
+This is a classic Broken Object Level Authorization issue.
+</p>
+
+<hr>
+
+<h2 id="orders" class="section-title">Broken Order Ownership Controls</h2>
+
+<p>
+The same flaw existed on order objects. Alice could request Bob's order simply by
+changing the order ID.
+</p>
+
+<div class="figure">
+<a href="images/4_brokenaccess_vuln.png" target="_blank">
+<img src="images/4_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+The response leaked ownership data, purchased item names and pricing information.
+</p>
+
+<hr>
+
+<h2 id="admin" class="section-title">Vertical Privilege Escalation</h2>
+
+<p>
+Regular users could access administrative reports directly without having an admin role.
+</p>
+
+<div class="figure">
+<a href="images/5_brokenaccess_vuln.png" target="_blank">
+<img src="images/5_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+This exposed internal business metrics such as revenue totals and user counts.
+</p>
+
+<hr>
+
+<h2 id="mass" class="section-title">Mass Assignment via Burp Suite</h2>
+
+<p>
+Using Burp Repeater, a normal user modified a profile update request and injected
+an unauthorized <code>role</code> field.
+</p>
+
+<div class="figure">
+<a href="images/6_brokenaccess_vuln.png" target="_blank">
+<img src="images/6_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+Because the API trusted all submitted fields, Alice's role changed from
+<code>user</code> to <code>admin</code>.
+</p>
+
+<div class="figure">
+<a href="images/7_brokenaccess_vuln.png" target="_blank">
+<img src="images/7_brokenaccess_vuln.png">
+</a>
+</div>
+
+<p>
+This demonstrates privilege escalation through mass assignment.
+</p>
+
+<hr>
+
+<h2 id="fixes" class="section-title">Security Hardening</h2>
+
+<p>
+The application was then rebuilt with secure authorization controls:
+</p>
+
+<p>
+- Ownership checks for user records<br>
+- Ownership checks for orders<br>
+- Admin-only middleware for privileged routes<br>
+- Allowlisted profile fields only<br>
+- 403 responses for unauthorized requests
+</p>
+
+<div class="figure">
+<a href="images/10_brokenaccess_hardened.png" target="_blank">
+<img src="images/10_brokenaccess_hardened.png">
+</a>
+</div>
+
+<p>
+Alice can still view her own profile, but no longer other users.
+</p>
+
+<hr>
+
+<h2 id="verify" class="section-title">Verification Testing</h2>
+
+<p>
+All previously vulnerable endpoints were re-tested after remediation.
+</p>
+
+<p>
+Attempting to access Bob's user profile now returns:
+<code>{"error":"Access denied"}</code>
+</p>
+
+<div class="figure">
+<a href="images/11_brokenaccess_hardened.png" target="_blank">
+<img src="images/11_brokenaccess_hardened.png">
+</a>
+</div>
+
+<p>
+Attempting to access Bob's order now returns:
+<code>{"error":"Access denied"}</code>
+</p>
+
+<div class="figure">
+<a href="images/12_brokenaccess_hardened.png" target="_blank">
+<img src="images/12_brokenaccess_hardened.png">
+</a>
+</div>
+
+<p>
+Attempting to open admin reports as a normal user now fails.
+</p>
+
+<div class="figure">
+<a href="images/13_brokenaccess_hardened.png" target="_blank">
+<img src="images/13_brokenaccess_hardened.png">
+</a>
+</div>
+
+<p>
+Burp Suite mass assignment retesting also fails. Supplying:
+<code>{"role":"admin"}</code>
+no longer changes the user role.
+</p>
+
+<div class="figure">
+<a href="images/14_brokenaccess_hardened.png" target="_blank">
+<img src="images/14_brokenaccess_hardened.png">
+</a>
+</div>
+
+<p>
+The response shows role remains:
+<code>user</code>
+</p>
+
+<div class="figure">
+<a href="images/15_brokenaccess_hardened.png" target="_blank">
+<img src="images/15_brokenaccess_hardened.png">
+</a>
+</div>
+
+<li>
+Final Hardened Build:
+<a href="https://github.com/NikolaStarivlah/broken-access-api-lab" target="_blank">
+broken-access-api-lab
+</a>
+</li>
+
+<hr>
+
+<h2 id="conclusion" class="section-title">Conclusion</h2>
+
+<p>
+This lab demonstrated how Broken Access Control appears in modern web APIs through
+BOLA / IDOR, privilege escalation and mass assignment flaws. The vulnerable version
+allowed unauthorized access to users, orders and admin data. The hardened version
+implemented proper authorization middleware, ownership checks and secure field
+allowlisting to eliminate those attack paths.
+</p>
+
+<p class="footer-note">
+Formatting reference used from prior writeup structure. :contentReference[oaicite:0]{index=0}
+</p>
+
+</ul>
+</div>
+</div>
+
+</body>
+</html>
